@@ -1,0 +1,29 @@
+{
+  "gold": 40000,
+  "day": 1,
+  "creatures": [],
+  "buildings": [
+    {
+      "id": "caseta_basica",
+      "nombre": "Caseta B\u00e1sica",
+      "coste": 0,
+      "mantenimiento": 10,
+      "capacidadMaxima": 5,
+      "tagEspeciesPermitidas": [
+        "peque\u00f1o",
+        "mediano"
+      ],
+      "criaturas_asignadas": [],
+      "instance_id": "1776350275026_4809",
+      "tile_x": 0,
+      "tile_y": 0
+    }
+  ],
+  "inventory": [],
+  "player_pos": [
+    0,
+    0
+  ],
+  "seed": null,
+  "time_elapsed": 0.0
+}

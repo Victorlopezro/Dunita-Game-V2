@@ -1,0 +1,26 @@
+{
+  "resolution": [
+    1280,
+    720
+  ],
+  "fullscreen": false,
+  "vsync": false,
+  "master_vol": 0.8,
+  "bgm_vol": 0.6,
+  "sfx_vol": 0.7,
+  "keys": {
+    "move_up": "w",
+    "move_down": "s",
+    "move_left": "a",
+    "move_right": "d",
+    "interact": "e",
+    "inventory": "i",
+    "shop": "tab",
+    "advance_turn": "space",
+    "pause": "escape"
+  },
+  "colorblind_mode": "none",
+  "font_scale": 1.0,
+  "photosensitivity": false,
+  "text_speed": 1.0
+}
