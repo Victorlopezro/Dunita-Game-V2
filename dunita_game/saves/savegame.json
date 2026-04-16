@@ -1,5 +1,5 @@
 {
-  "gold": 40000,
+  "gold": 9000,
   "day": 1,
   "creatures": [],
   "buildings": [
@@ -14,12 +14,58 @@
         "mediano"
       ],
       "criaturas_asignadas": [],
-      "instance_id": "1776350275026_4809",
+      "instance_id": "1776356967594_3250",
       "tile_x": 0,
       "tile_y": 0
+    },
+    {
+      "id": "recinto_grande",
+      "nombre": "Recinto Grande",
+      "coste": 18000,
+      "mantenimiento": 45,
+      "capacidadMaxima": 15,
+      "tagEspeciesPermitidas": [
+        "grande",
+        "depredador",
+        "desierto"
+      ],
+      "criaturas_asignadas": [],
+      "instance_id": "1776357142785_4959",
+      "tile_x": 191,
+      "tile_y": -64
+    },
+    {
+      "id": "recinto_pequeno",
+      "nombre": "Recinto Peque\u00f1o",
+      "coste": 5000,
+      "mantenimiento": 20,
+      "capacidadMaxima": 5,
+      "tagEspeciesPermitidas": [
+        "peque\u00f1o",
+        "herbivoro",
+        "aereo"
+      ],
+      "criaturas_asignadas": [],
+      "instance_id": "1776357151234_1850",
+      "tile_x": 183,
+      "tile_y": -65
     }
   ],
-  "inventory": [],
+  "inventory": [
+    {
+      "id": "lasgun",
+      "nombre": "Lasgun",
+      "tipo": "ARMA",
+      "coste": 8000,
+      "instance_id": "1776356986141_2653",
+      "equipado": true,
+      "da\u00f1o": 100,
+      "rango": 600,
+      "cadencia": 1.2,
+      "sprite": "weapon_lasgun",
+      "efectos": []
+    }
+  ],
   "player_pos": [
     0,
     0

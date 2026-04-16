@@ -1,5 +1,5 @@
-﻿"""
-Economy Service - Servicio de dominio para lÃ³gica econÃ³mica pura
+"""
+Economy Service - Servicio de dominio para lógica económica pura
 """
 from typing import Tuple, List, Dict, Optional
 from src.domain.entities import Creature, Building, Item, Weapon, GameState
@@ -57,7 +57,7 @@ class EconomyService:
                 name=item_data['nombre'],
                 item_type='ARMA',
                 cost=cost,
-                damage=item_data.get('daÃ±o', 10),
+                damage=item_data.get('daño', 10),
                 range=item_data.get('rango', 100),
                 cadence=item_data.get('cadencia', 1.0),
                 sprite=item_data.get('sprite', 'weapon_knife'),
@@ -74,7 +74,7 @@ class EconomyService:
                 efectos=item_data.get('efectos', [])
             )
 
-        return True, f"{item.name} aÃ±adido al inventario.", current_gold - cost, item
+        return True, f"{item.name} añadido al inventario.", current_gold - cost, item
 
     @staticmethod
     def advance_turn(turn_type: str, creatures: List[Creature], buildings: List[Building],
@@ -113,7 +113,7 @@ class EconomyService:
     @staticmethod
     def assign_creature_to_building(creature: Creature, building: Building) -> Tuple[bool, str, Creature, Building]:
         if len(building.assigned_creatures) >= building.capacity:
-            return False, f"El recinto estÃ¡ lleno ({len(building.assigned_creatures)}/{building.capacity}).", creature, building
+            return False, f"El recinto está lleno ({len(building.assigned_creatures)}/{building.capacity}).", creature, building
 
         if building.allowed_tags and not any(tag in building.allowed_tags for tag in creature.tags):
             return False, f"Esta criatura ({', '.join(creature.tags)}) no es compatible con este recinto ({', '.join(building.allowed_tags)}).", creature, building

@@ -1,5 +1,5 @@
-﻿"""
-Economy Manager Adapter - Adapter para mantener compatibilidad con el cÃ³digo existente
+"""
+Economy Manager Adapter - Adapter para mantener compatibilidad con el código existente
 """
 from dataclasses import replace
 from src.application.use_cases.economy_use_cases import BuyCreatureUseCase, AdvanceTurnUseCase, AssignCreatureUseCase

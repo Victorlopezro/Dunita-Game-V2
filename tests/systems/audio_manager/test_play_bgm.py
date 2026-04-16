@@ -8,6 +8,9 @@ def make_audio_manager():
     manager._use_generated = False
     manager._current_track = None
     manager._current_state = None
+    manager._master_vol = 0.8
+    manager._bgm_vol = 0.6
+    manager._sfx_vol = 0.7
     manager._bgm_tracks = {
         'main_menu': '/tmp/fake_menu.mp3',
         'gameplay': '/tmp/fake_game.mp3'

@@ -73,6 +73,9 @@ class Colors:
     UI_BTN_HOVER    = (100, 60, 80)
     UI_BTN_PRESSED  = (40, 20, 35)
     
+    # Jugador
+    PLAYER = (89, 125, 206)  # Azul especia para el jugador
+    
     # Rareza
     RARITY_COMUN      = (133, 149, 161)
     RARITY_RARO       = (89, 125, 206)
