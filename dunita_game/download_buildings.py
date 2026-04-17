@@ -3,7 +3,7 @@
 import requests
 import os
 
-API_URL = "https://api.github.com/repos/carlosalonsolopez14-eng/Dunita/contents/Documentacion/imagenes_edificios"
+API_URL = "https://api.github.com/repos/Victorlopezro/Documentacion-dunita/contents/imagenes_edificios"
 OUT_DIR = "/home/ubuntu/dunita_game/assets/sprites/buildings"
 
 os.makedirs(OUT_DIR, exist_ok=True)
