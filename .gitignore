@@ -20,16 +20,15 @@ docker-compose.override.yml
 # Entorno
 .env
 .env.local
+.env.railway
 
-# IDE
-.idea/
-*.swp
-*.swo
-*~
+# Credenciales Firebase
+firebase-service-account.json
+*.p12
+*.pem
 
-# OS
-.DS_Store
-Thumbs.db
+# Railway
+.railway/
 
 # Logs
 logs/

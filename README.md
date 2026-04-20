@@ -48,6 +48,53 @@ Este repositorio ya incluye un backend de ejemplo listo para desplegar en Railwa
 
 También se ha preparado el juego para usar un repositorio remoto cuando se define `REMOTE_API_URL` en el entorno.
 
+## Despliegue
+
+Para desplegar el backend en Railway y configurar Firebase, sigue la guía completa en [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md).
+
+### Desarrollo Local
+
+Para ejecutar el backend localmente durante desarrollo:
+
+**Windows (PowerShell):**
+```powershell
+.\dev_backend.ps1
+```
+
+**Linux/Mac:**
+```bash
+./dev_backend.sh
+```
+
+### Pruebas
+
+Para probar que el backend funciona correctamente:
+
+```bash
+python test_backend.py https://tu-url-de-railway.up.railway.app
+```
+
+## Arquitectura
+
+El proyecto sigue una arquitectura limpia (Clean Architecture) con separación clara entre:
+
+- **Dominio**: Lógica de negocio pura (`src/domain/`)
+- **Aplicación**: Casos de uso (`src/application/`)
+- **Infraestructura**: Adaptadores externos (`src/infrastructure/`)
+- **Presentación**: UI y estados del juego (`src/states/`, `src/ui/`)
+
+## Contribución
+
+1. Crea un fork del proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`)
+3. Commit tus cambios (`git commit -am 'Agrega nueva funcionalidad'`)
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
 ```bash
 REMOTE_API_URL=http://localhost:8000
 REMOTE_USER_ID=default
