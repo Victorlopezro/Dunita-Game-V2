@@ -2,7 +2,7 @@ import json
 import os
 
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, db
 
 
 def _load_credentials():
@@ -14,18 +14,24 @@ def _load_credentials():
             parsed = json.loads(json_data)
             return credentials.Certificate(parsed)
         except json.JSONDecodeError as exc:
-            raise RuntimeError("La variable FIREBASE_CREDENTIALS_JSON no contiene JSON válido") from exc
+            raise RuntimeError("FIREBASE_CREDENTIALS_JSON no contiene JSON válido") from exc
 
     if credentials_path and os.path.exists(credentials_path):
         return credentials.Certificate(credentials_path)
 
-    raise RuntimeError(
-        "No se ha configurado credencial de Firebase. Use FIREBASE_CREDENTIALS_JSON o FIREBASE_CREDENTIALS_PATH."
-    )
+    raise RuntimeError("No se ha configurado credencial de Firebase.")
 
 
-def get_firestore_client():
+def get_realtime_db():
     if not firebase_admin._apps:
         cred = _load_credentials()
-        firebase_admin.initialize_app(cred)
-    return firestore.client()
+
+        database_url = os.getenv("FIREBASE_DATABASE_URL")
+        if not database_url:
+            raise RuntimeError("Falta FIREBASE_DATABASE_URL")
+
+        firebase_admin.initialize_app(cred, {
+            "databaseURL": database_url
+        })
+
+    return db

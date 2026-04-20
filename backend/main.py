@@ -5,12 +5,12 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.firebase_client import get_firestore_client
+from backend.firebase_client import get_realtime_db
 from backend.schemas import GameStatePayload, SettingsPayload
 
 app = FastAPI(
     title="Dunita Game Backend",
-    description="Backend para guardar partidas y configuración de Dunita usando Firebase.",
+    description="Backend para guardar partidas y configuración usando Firebase Realtime DB.",
     version="0.1.0"
 )
 
@@ -22,14 +22,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DB = get_firestore_client()
-GAME_STATE_COLLECTION = "game_states"
-SETTINGS_COLLECTION = "user_settings"
+DB = get_realtime_db()
+
 DATA_FILE = Path(__file__).resolve().parents[1] / "dunita_game" / "data" / "game_data.json"
 
 
-def _get_doc(collection: str, document_id: str):
-    return DB.collection(collection).document(document_id)
+def _get_ref(path: str):
+    return DB.reference(path)
 
 
 def _load_game_data():
@@ -46,30 +45,41 @@ def health_check():
 
 @app.get("/game-state/{user_id}")
 def get_game_state(user_id: str):
-    doc = _get_doc(GAME_STATE_COLLECTION, user_id).get()
-    if not doc.exists:
-        raise HTTPException(status_code=404, detail="No game state found for user")
-    return doc.to_dict().get("state", {})
+    ref = _get_ref(f"game_states/{user_id}")
+    data = ref.get()
+
+    if data is None:
+        raise HTTPException(status_code=404, detail="No game state found")
+
+    return data.get("state", {})
 
 
 @app.post("/game-state/{user_id}")
 def save_game_state(user_id: str, payload: GameStatePayload):
     data = payload.dict()
-    _get_doc(GAME_STATE_COLLECTION, user_id).set({"state": data})
+
+    ref = _get_ref(f"game_states/{user_id}")
+    ref.set({"state": data})
+
     return {"saved": True, "user_id": user_id}
 
 
 @app.get("/settings/{user_id}")
 def get_settings(user_id: str):
-    doc = _get_doc(SETTINGS_COLLECTION, user_id).get()
-    if not doc.exists:
-        raise HTTPException(status_code=404, detail="No settings found for user")
-    return doc.to_dict().get("settings", {})
+    ref = _get_ref(f"user_settings/{user_id}")
+    data = ref.get()
+
+    if data is None:
+        raise HTTPException(status_code=404, detail="No settings found")
+
+    return data.get("settings", {})
 
 
 @app.post("/settings/{user_id}")
 def save_settings(user_id: str, payload: SettingsPayload):
-    _get_doc(SETTINGS_COLLECTION, user_id).set({"settings": payload.settings})
+    ref = _get_ref(f"user_settings/{user_id}")
+    ref.set({"settings": payload.settings})
+
     return {"saved": True, "user_id": user_id}
 
 

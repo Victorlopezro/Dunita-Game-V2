@@ -1,60 +1,48 @@
 #!/usr/bin/env python3
 """
-Script de prueba para el backend de Dunita Game
-Ejecuta pruebas básicas contra el backend desplegado
+Script de prueba para el backend de Dunita Game (Realtime DB)
 """
 
 import requests
-import json
 import sys
-import os
 from pathlib import Path
 
-def test_backend(base_url: str):
-    """Prueba los endpoints básicos del backend"""
 
-    print(f"🔍 Probando backend en: {base_url}")
+def test_backend(base_url: str):
+    print(f"Probando backend en: {base_url}")
     print("=" * 50)
 
-    # Test 1: Health check
+    # 1. Health
     try:
-        response = requests.get(f"{base_url}/")
-        if response.status_code == 200:
-            data = response.json()
-            print(f"✅ Health check: {data}")
-        else:
-            print(f"❌ Health check falló: {response.status_code}")
-            return False
+        r = requests.get(f"{base_url}/")
+        assert r.status_code == 200
+        print("OK Health:", r.json())
     except Exception as e:
-        print(f"❌ Error en health check: {e}")
+        print("FAIL Health:", e)
         return False
 
-    # Test 2: Game data
+    # 2. Game data
     try:
-        response = requests.get(f"{base_url}/game-data")
-        if response.status_code == 200:
-            data = response.json()
-            print(f"✅ Game data: {len(data)} elementos cargados")
-        else:
-            print(f"❌ Game data falló: {response.status_code}")
-            return False
+        r = requests.get(f"{base_url}/game-data")
+        assert r.status_code == 200
+        print("OK Game data:", len(r.json()))
     except Exception as e:
-        print(f"❌ Error en game data: {e}")
+        print("FAIL Game data:", e)
         return False
 
-    # Test 3: Game state (debería fallar para usuario nuevo)
+    # 3. Game state (new user)
     try:
-        response = requests.get(f"{base_url}/game-state/test-user")
-        if response.status_code == 404:
-            print("✅ Game state (usuario nuevo): 404 correcto")
+        r = requests.get(f"{base_url}/game-state/test-user")
+        if r.status_code == 404:
+            print("OK New user 404")
         else:
-            print(f"⚠️  Game state inesperado: {response.status_code}")
+            print("WARN Unexpected:", r.status_code)
     except Exception as e:
-        print(f"❌ Error en game state: {e}")
+        print("FAIL Game state:", e)
         return False
 
-    # Test 4: Save game state
-    test_game_state = {
+    # 4. Save game state
+    payload = {
         "gold": 1000,
         "day": 1,
         "creatures": [],
@@ -64,88 +52,68 @@ def test_backend(base_url: str):
     }
 
     try:
-        response = requests.post(
-            f"{base_url}/game-state/test-user",
-            json=test_game_state
-        )
-        if response.status_code == 200:
-            data = response.json()
-            print(f"✅ Save game state: {data}")
-        else:
-            print(f"❌ Save game state falló: {response.status_code}")
-            return False
+        r = requests.post(f"{base_url}/game-state/test-user", json=payload)
+        assert r.status_code == 200
+        print("OK Save game state:", r.json())
     except Exception as e:
-        print(f"❌ Error en save game state: {e}")
+        print("FAIL Save game state:", e)
         return False
 
-    # Test 5: Load game state (debería funcionar ahora)
+    # 5. Load game state
     try:
-        response = requests.get(f"{base_url}/game-state/test-user")
-        if response.status_code == 200:
-            data = response.json()
-            print(f"✅ Load game state: gold={data.get('gold')}")
-        else:
-            print(f"❌ Load game state falló: {response.status_code}")
-            return False
+        r = requests.get(f"{base_url}/game-state/test-user")
+        assert r.status_code == 200
+        data = r.json()
+        print("OK Load game state: gold =", data.get("gold"))
     except Exception as e:
-        print(f"❌ Error en load game state: {e}")
+        print("FAIL Load game state:", e)
         return False
 
-    # Test 6: Settings
-    test_settings = {"volume": 0.8, "fullscreen": False}
+    # 6. Settings
+    settings = {"volume": 0.8, "fullscreen": False}
 
     try:
-        # Save settings
-        response = requests.post(
+        r = requests.post(
             f"{base_url}/settings/test-user",
-            json={"settings": test_settings}
+            json={"settings": settings}
         )
-        if response.status_code == 200:
-            print("✅ Save settings: OK"
-        else:
-            print(f"❌ Save settings falló: {response.status_code}")
-            return False
+        assert r.status_code == 200
+        print("OK Save settings")
 
-        # Load settings
-        response = requests.get(f"{base_url}/settings/test-user")
-        if response.status_code == 200:
-            data = response.json()
-            print(f"✅ Load settings: {data}")
-        else:
-            print(f"❌ Load settings falló: {response.status_code}")
-            return False
+        r = requests.get(f"{base_url}/settings/test-user")
+        assert r.status_code == 200
+        print("OK Load settings:", r.json())
+
     except Exception as e:
-        print(f"❌ Error en settings: {e}")
+        print("FAIL Settings:", e)
         return False
 
     print("=" * 50)
-    print("🎉 ¡Todas las pruebas pasaron! Backend funcionando correctamente.")
+    print("ALL TESTS PASSED")
     return True
 
+
 def main():
-    """Función principal"""
     if len(sys.argv) > 1:
         base_url = sys.argv[1].rstrip('/')
     else:
-        # Intentar leer del .env
         env_file = Path(__file__).parent / '.env'
+        base_url = None
+
         if env_file.exists():
             with open(env_file, 'r') as f:
                 for line in f:
                     if line.startswith('REMOTE_API_URL='):
                         base_url = line.split('=', 1)[1].strip()
                         break
-        else:
-            print("Uso: python test_backend.py <URL_DEL_BACKEND>")
-            print("O configura REMOTE_API_URL en .env")
-            sys.exit(1)
 
-    if not base_url:
-        print("❌ No se encontró REMOTE_API_URL")
-        sys.exit(1)
+        if not base_url:
+            print("Usage: python test_backend.py <URL>")
+            sys.exit(1)
 
     success = test_backend(base_url)
     sys.exit(0 if success else 1)
+
 
 if __name__ == "__main__":
     main()
