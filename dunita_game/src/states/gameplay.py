@@ -14,6 +14,12 @@ from src.infrastructure.config.config import (
     SAVE_FILE, SETTINGS_FILE, DATA_DIR
 )
 from src.infrastructure.adapters.json_game_repository import JsonGameRepository
+from src.infrastructure.adapters.remote_game_repository import RemoteGameRepository
+from src.infrastructure.config.remote_config import (
+    REMOTE_API_URL,
+    REMOTE_USER_ID,
+    USE_REMOTE_REPOSITORY,
+)
 from src.utils.asset_manager import assets
 from src.systems.audio_manager import audio
 from src.systems.economy_manager import EconomyManager
@@ -33,7 +39,11 @@ class GameplayState(BaseState):
         audio.play_bgm(GameState.GAMEPLAY)
 
         # Repositorio y economía
-        self.repository = JsonGameRepository(SAVE_FILE, SETTINGS_FILE, os.path.join(DATA_DIR, 'game_data.json'))
+        local_repository = JsonGameRepository(SAVE_FILE, SETTINGS_FILE, os.path.join(DATA_DIR, 'game_data.json'))
+        if USE_REMOTE_REPOSITORY:
+            self.repository = RemoteGameRepository(REMOTE_API_URL, REMOTE_USER_ID, local_repository)
+        else:
+            self.repository = local_repository
         from src.systems.economy_manager_adapter import EconomyManagerAdapter
         self.economy = EconomyManagerAdapter(self.repository, initial_state=self.engine.save_data)
         self.economy.add_callback(self._on_economy_event)

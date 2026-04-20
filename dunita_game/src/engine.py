@@ -10,6 +10,11 @@ from src.infrastructure.config.config import (
     SCREEN_WIDTH, SCREEN_HEIGHT, FPS, TITLE,
     GameState, load_settings, save_settings, SAVES_DIR
 )
+from src.infrastructure.config.remote_config import (
+    REMOTE_API_URL,
+    REMOTE_REQUEST_TIMEOUT,
+    REMOTE_USER_ID,
+)
 from src.utils.asset_manager import assets
 from src.systems.audio_manager import audio
 
@@ -206,6 +211,21 @@ class Engine:
         import json
         from src.infrastructure.config.config import SAVE_FILE
         try:
+            if REMOTE_API_URL:
+                try:
+                    import requests
+                    response = requests.get(
+                        f"{REMOTE_API_URL.rstrip('/')}/game-state/{REMOTE_USER_ID}",
+                        timeout=REMOTE_REQUEST_TIMEOUT,
+                    )
+                    response.raise_for_status()
+                    payload = response.json()
+                    if isinstance(payload, dict) and payload:
+                        self.save_data = payload.get('state', payload)
+                        return True
+                except Exception as remote_error:
+                    print(f"Remote load error: {remote_error}")
+
             if os.path.exists(SAVE_FILE):
                 with open(SAVE_FILE, 'r') as f:
                     self.save_data = json.load(f)

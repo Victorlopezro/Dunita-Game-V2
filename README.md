@@ -36,7 +36,24 @@ Dunita es un juego 2D de estrategia, gestión y supervivencia ambientado en el u
    cd dunita_game
    python main.py
    ```
+## Infraestructura preparada para despliegue
 
+Este repositorio ya incluye un backend de ejemplo listo para desplegar en Railway y una configuración inicial para conectar con Firebase. El backend se encuentra en `backend/` y expone endpoints para guardar:
+
+- `GET /game-state/{user_id}`
+- `POST /game-state/{user_id}`
+- `GET /settings/{user_id}`
+- `POST /settings/{user_id}`
+- `GET /game-data`
+
+También se ha preparado el juego para usar un repositorio remoto cuando se define `REMOTE_API_URL` en el entorno.
+
+```bash
+REMOTE_API_URL=http://localhost:8000
+REMOTE_USER_ID=default
+```
+
+Para el backend de Firebase, consulta `backend/README.md`.
 ## Controles
 
 - **W, A, S, D / Flechas**: Mover al jugador.
