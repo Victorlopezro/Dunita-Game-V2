@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.firebase_client import get_realtime_db
 from backend.schemas import GameStatePayload, SettingsPayload
 
+
 app = FastAPI(
     title="Dunita Game Backend",
     description="Backend para guardar partidas y configuración usando Firebase Realtime DB.",

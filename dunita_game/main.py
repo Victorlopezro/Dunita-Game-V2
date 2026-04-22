@@ -2,6 +2,9 @@
 DUNE DOMINION - Punto de Entrada Principal
 Videojuego 2D de gestión de criaturas en el universo de Dune
 """
+from dotenv import load_dotenv
+load_dotenv()
+
 import sys
 import os
 
