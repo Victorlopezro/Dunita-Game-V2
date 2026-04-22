@@ -1,29 +1,59 @@
 {
-  "gold": 40000,
+  "gold": 25000,
   "day": 1,
   "creatures": [],
-  "buildings": [
-    {
-      "id": "caseta_basica",
-      "nombre": "Caseta B\u00e1sica",
-      "coste": 0,
-      "mantenimiento": 10,
-      "capacidadMaxima": 5,
-      "tagEspeciesPermitidas": [
-        "peque\u00f1o",
-        "mediano"
-      ],
-      "criaturas_asignadas": [],
-      "instance_id": "1776699670209_1533",
-      "tile_x": 0,
-      "tile_y": 0
-    }
-  ],
+  "buildings": [],
   "inventory": [],
   "player_pos": [
-    0,
-    0
+    164.14213562373095,
+    256.5685424949238
   ],
-  "seed": null,
-  "time_elapsed": 0.0
+  "seed": 93151,
+  "time_elapsed": 4.899999999999991,
+  "achievements": {
+    "nights_survived": 0,
+    "enemies_killed": 0,
+    "achievements": {
+      "first_building": {
+        "unlocked": true,
+        "progress": 1.0
+      },
+      "first_creature": {
+        "unlocked": true,
+        "progress": 1.0
+      },
+      "survive_3_nights": {
+        "unlocked": false,
+        "progress": 0.0
+      },
+      "kill_10_enemies": {
+        "unlocked": false,
+        "progress": 0.0
+      },
+      "reach_day_30": {
+        "unlocked": false,
+        "progress": 0.0
+      },
+      "earn_100k_solaris": {
+        "unlocked": false,
+        "progress": 0.0
+      },
+      "build_5_buildings": {
+        "unlocked": false,
+        "progress": 1.0
+      },
+      "recruit_5_creatures": {
+        "unlocked": false,
+        "progress": 0.0
+      },
+      "equip_weapon": {
+        "unlocked": false,
+        "progress": 0.0
+      },
+      "hire_mercenary": {
+        "unlocked": true,
+        "progress": 1.0
+      }
+    }
+  }
 }
